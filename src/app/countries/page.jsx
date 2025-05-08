@@ -2,19 +2,21 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { Pagination } from "antd";
 import CountryCard from "../../components/CountryCard";
 import CountryModal from "../../components/CountryModal";
 import Loading from "../../components/Loading";
 import styles from "./Countries.module.css";
 
 const regions = ["africa", "americas", "antarctic", "asia", "europe", "oceania"];
+const ITEMS_PER_PAGE = 20;
 
 export default function Countries() {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [allCountries, setAllCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchCountries = async (region = "") => {
     setIsLoading(true);
@@ -40,6 +42,10 @@ export default function Countries() {
 
   const resetFilter = () => fetchCountries();
 
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentCountries = countries.slice(startIndex, endIndex);
+
   return (
     <div className={styles.container}>
       <h1>Lista de Países do Mundo</h1>
@@ -62,7 +68,7 @@ export default function Countries() {
         {isLoading ? (
           <Loading />
         ) : (
-          countries.map((country, index) => (
+          currentCountries.map((country, index) => (
             <CountryCard
               key={index}
               country={country}
@@ -71,6 +77,16 @@ export default function Countries() {
           ))
         )}
       </div>
+
+      {!isLoading && (
+        <Pagination
+          current={currentPage}
+          total={countries.length}
+          pageSize={ITEMS_PER_PAGE}
+          onChange={(page) => setCurrentPage(page)}
+          className={styles.pagination}
+        />
+      )}
 
       {selectedCountry && (
         <CountryModal

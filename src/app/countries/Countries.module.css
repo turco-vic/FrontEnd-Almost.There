@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
     background-color: lightblue;
+    padding: 1rem;
 }
 
 .button {
