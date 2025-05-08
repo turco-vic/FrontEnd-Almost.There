@@ -41,3 +41,8 @@
     border-radius: 8px;
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
