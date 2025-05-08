@@ -10,13 +10,10 @@ import styles from "./Countries.module.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const apiKey = "<sua API-Key>";
-const headers = { "x-api-key": apiKey };
-
 const regions = ["africa", "americas", "antarctic", "asia", "europe", "oceania"];
 const ITEMS_PER_PAGE = 20;
 
-async function fetchComCache(url, cacheKey) {
+async function fetchComCache(url) {
   const cache = sessionStorage.getItem(cacheKey);
   if (cache) {
     console.log("🔁 Usando cache:");
